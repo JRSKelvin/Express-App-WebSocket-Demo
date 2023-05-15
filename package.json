@@ -1,0 +1,29 @@
+{
+  "name": "express-app-websocket-demo",
+  "version": "0.0.0",
+  "description": "Express App WebSocket Demo",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www",
+    "test": ""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.40.0",
+    "express": "^4.18.2",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "nodemon": "^2.0.22",
+    "pug": "^3.0.2",
+    "uuid": "^9.0.0",
+    "ws": "^8.13.0"
+  }
+}
