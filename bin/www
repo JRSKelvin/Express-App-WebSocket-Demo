@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('express-app-websocket-demo:server');
 var http = require('http');
+var { WebSocket } = require('ws');
 
 /**
  * Get port from environment and store in Express.
@@ -20,6 +21,19 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+/**
+ * Create WebSocket server.
+ */
+
+var wss = new WebSocket.Server({ server: server });
+
+wss.on('connection', (ws) => {
+  console.log(`New Client Has Connected`);
+  ws.onclose = () => {
+    console.log(`The Client Has Disconnected`);
+  };
+});
 
 /**
  * Listen on provided port, on all network interfaces.
