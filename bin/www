@@ -33,6 +33,13 @@ var server = http.createServer(app);
 var socketType = process.env.SOCKET_TYPE;
 
 if (socketType == 'socket.io') {
+  var io = ioServer(server, {
+    cors: {
+      origin: '*',
+    },
+  });
+  io.on('connection', (client) => {
+  });
 } else {
   var wss = new WebSocket.Server({ server: server });
   wss.on('connection', (ws) => {
