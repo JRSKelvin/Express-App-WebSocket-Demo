@@ -33,12 +33,37 @@ var server = http.createServer(app);
 var socketType = process.env.SOCKET_TYPE;
 
 if (socketType == 'socket.io') {
+  /** @type {import('socket.io').Server} */
   var io = ioServer(server, {
     cors: {
       origin: '*',
     },
   });
+  var typingList = [];
   io.on('connection', (client) => {
+    console.log(`New Client ${client.id} Has Connected`);
+    client.send(`Welcome To Express App WebSocket Demo!`);
+    client.on('message', (data) => {
+      client.broadcast.emit('message', `${data}`);
+    });
+    client.on('typing', (data) => {
+      if (data) {
+        var alreadyInArray = typingList.filter((value) => value == client.id).length;
+        if (alreadyInArray == 0) {
+          typingList.push(client.id);
+        }
+      } else {
+        typingList = typingList.filter((value) => value != client.id);
+      }
+      io.emit('typing', typingList);
+    });
+    client.on('broadcast', (data) => {
+      io.emit('broadcast', `${data}`);
+    });
+    client.on('disconnect', (reason) => {
+      typingList = typingList.filter((value) => value != client.id);
+      console.log(`The Client ${client.id} Has Disconnected With Reason (${reason})`);
+    });
   });
 } else {
   var wss = new WebSocket.Server({ server: server });
